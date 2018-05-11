@@ -87,6 +87,9 @@
               :is-error="$v.user.shirt_size.$error"
               @input="$v.user.shirt_size.$touch()">
             </custom-radio-buttons>
+            <div class="invalid-feedback">
+              You must choose a shirt size.
+            </div>
           </div>
         </div>
 
@@ -100,10 +103,12 @@
               :is-error="$v.user.polo_size.$error"
               @input="$v.user.polo_size.$touch()">
             </custom-radio-buttons>
+            <div class="invalid-feedback">
+              You must choose a polo size.
+            </div>
           </div>
         </div>
 
-        
         <h3>Emergency Contacts</h3>
 
         <div class="form-group row">
@@ -149,7 +154,7 @@
 
 <script>
 
-  import { alpha, email, maxLength } from 'vuelidate/lib/validators';
+  import { alpha, email, maxLength, required } from 'vuelidate/lib/validators';
   import notGTEmail from '../customValidators/notGTEmail';
 
   export default {
@@ -210,8 +215,8 @@
         personal_email: {email, notGTEmail},
         phone: {maxLength: maxLength(15)},
         preferred_name: {alpha},
-        shirt_size: {},
-        polo_size: {},
+        shirt_size: {required},
+        polo_size: {required},
         emergency_contact_name: {},
         emergency_contact_phone: {maxLength: maxLength(15)}
       }
