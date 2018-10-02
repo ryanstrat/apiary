@@ -301,7 +301,7 @@ class PaymentController extends Controller
                 'name' => 'Transaction Fee',
                 'type' => 'ADDITIVE',
                 'percentage' => $feePercentage,
-                ]
+                ],
             ];
         } else {
             $taxes = [];
