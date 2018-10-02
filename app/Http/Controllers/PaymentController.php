@@ -295,12 +295,12 @@ class PaymentController extends Controller
         if ($addFee) {
             // Transaction fee for online charges is 2.9% + 30¢
             $feeAmount = ((int) $amount * 0.029) + 0.30;
-            $feePercentage = $feeAmount / $amount;
+            $feePercentage = round($feeAmount / $amount, 3, PHP_ROUND_HALF_UP) * 100;
             $taxes = [
                 [
                 'name' => 'Transaction Fee',
                 'type' => 'ADDITIVE',
-                'percentage' => $feePercentage,
+                'percentage' => "$feePercentage",
                 ],
             ];
         } else {
