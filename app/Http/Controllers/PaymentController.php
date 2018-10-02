@@ -263,7 +263,7 @@ class PaymentController extends Controller
      * @param $amount integer Amount in *whole* dollars to be paid (excluding fees!)
      * @param $email string Email address for Square Receipt
      * @param $payment \App\Payment Payment Model
-     * @param $addFee boolean Adds $3.00 transaction fee if true
+     * @param $addFee boolean Adds appropriate transaction fee if true
      */
     public function createSquareCheckout($name, $amount, $email, $payment, $addFee)
     {
@@ -283,20 +283,23 @@ class PaymentController extends Controller
         ];
 
         if ($addFee) {
-            $line_items[] =
+            // Transaction fee for online charges is 2.9% + 30¢
+            $feeAmount = ((int) $amount * 0.029) + 0.30;
+            $feePercentage = $feeAmount / $amount;
+            $taxes =
             [
                 'name' => 'Transaction Fee',
-                'quantity' => '1',
-                'base_price_money' => [
-                    'amount' => 300,
-                    'currency' => 'USD',
-                ],
+                'type' => 'ADDITIVE',
+                'percentage' => $feePercentage
             ];
+        } else {
+            $taxes = [];
         }
 
         $order = new CreateOrderRequest([
             'reference_id' => "PMT$payment->id",
             'line_items' => $line_items,
+            'taxes' => $taxes
         ]);
 
         $checkout_request = new CreateCheckoutRequest([
