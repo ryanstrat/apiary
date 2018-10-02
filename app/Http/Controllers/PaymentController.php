@@ -296,11 +296,12 @@ class PaymentController extends Controller
             // Transaction fee for online charges is 2.9% + 30¢
             $feeAmount = ((int) $amount * 0.029) + 0.30;
             $feePercentage = $feeAmount / $amount;
-            $taxes =
-            [
+            $taxes = [
+                [
                 'name' => 'Transaction Fee',
                 'type' => 'ADDITIVE',
                 'percentage' => $feePercentage,
+                ]
             ];
         } else {
             $taxes = [];
