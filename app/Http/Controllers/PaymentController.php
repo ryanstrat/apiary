@@ -277,6 +277,7 @@ class PaymentController extends Controller
      */
     public function createSquareCheckout($name, $amount, $email, $payment, $addFee)
     {
+        Log::debug(get_class()." - Creating Square Checkout for Payment $payment->id ($name: '$ $amount')");
         $api = new CheckoutApi();
         $location = config('payment.square.location_id');
         $token = config('payment.square.token');
@@ -294,7 +295,7 @@ class PaymentController extends Controller
 
         if ($addFee) {
             // Transaction fee for online charges is 2.9% + 30¢
-            $feeAmount = (($amount * 1.029) + 0.3);
+            $feeAmount = (($amount * 0.029) + 0.3);
             $feePercentage = round($feeAmount / $amount, 3, PHP_ROUND_HALF_UP) * 100;
             $taxes = [
                 [
@@ -303,6 +304,7 @@ class PaymentController extends Controller
                 'percentage' => "$feePercentage",
                 ],
             ];
+            Log::debug(get_class()." - Adding transaction fee of $feeAmount ($feePercentage%) to checkout");
         } else {
             $taxes = [];
         }
