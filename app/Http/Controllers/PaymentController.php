@@ -298,7 +298,7 @@ class PaymentController extends Controller
             // Full disclosure, this is some J A N K Y math
             $txnCostWithFee = round((($amount + 0.3) / (1 - 0.029)), 2);
             $txnFee = round($txnCostWithFee - $amount, 2);
-            $txnFeePercent = round((($txnCostWithFee / $amount)-1) * 100, 1);
+            $txnFeePercent = round((($txnCostWithFee / $amount) - 1) * 100, 1);
 
             $taxes = [
                 [
