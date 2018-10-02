@@ -290,7 +290,7 @@ class PaymentController extends Controller
             [
                 'name' => 'Transaction Fee',
                 'type' => 'ADDITIVE',
-                'percentage' => $feePercentage
+                'percentage' => $feePercentage,
             ];
         } else {
             $taxes = [];
@@ -299,7 +299,7 @@ class PaymentController extends Controller
         $order = new CreateOrderRequest([
             'reference_id' => "PMT$payment->id",
             'line_items' => $line_items,
-            'taxes' => $taxes
+            'taxes' => $taxes,
         ]);
 
         $checkout_request = new CreateCheckoutRequest([
